@@ -1,5 +1,34 @@
 from customtkinter import *
 from tkinter import *
+import math
+
+#ФУНКЦІЯ ДЛЯ КАЛЬКУЛЯТОРА
+def cal():
+    result = eval(display.get())
+    display.delete(0, END)
+    display.insert(END, str(result))
+def  n(value):
+    display.insert(END, value)
+
+def sqrt():
+    v = float(display.get())
+    result = math.sqrt(v)
+    display.delete(0, END)
+    display.insert(END, str(result))
+
+def square():
+    v = float(display.get())
+    result = pow(v, 2)
+    display.delete(0, END)
+    display.insert(END, str(result))
+
+def percent():
+    v = float(display.get())
+    result = v / 100
+    display.delete(0, END)
+    display.insert(END, str(result))
+
+
 
 #ФУНКЦІЇ ДЛЯ ТЕМ
 def light():
@@ -39,15 +68,15 @@ def blue():
     for b in buttons_list:
         b.configure(fg_color="#cfe2f3", hover_color="#95b2cc", text_color="#527ea6")
 
-
 w = CTk()
 w.title("Калькулятор")
-w.geometry("400x350")
+w.geometry("400x420")
+w.config(bg="white")
 
-display = CTkTextbox(w, height=50, corner_radius=10, font=("Arial", 20))
+display = CTkEntry(w, height=50, corner_radius=10,bg_color='white',fg_color="#efefef" ,font=("Arial", 20))
 display.pack(side="top", padx=10, pady=20, fill="x")
 
-frame = CTkFrame(w, width=100, height=200)
+frame = CTkFrame(w, width=100, height=200, bg_color="white", fg_color="white")
 frame.pack(pady=20)
 
 #ТЕМИ
@@ -73,13 +102,25 @@ buttons = [
     ("7", 0, 0), ("8", 0, 1), ("9", 0, 2),("/", 0, 3),
     ("4", 1, 0), ("5", 1, 1), ("6", 1, 2),("*", 1, 3),
     ("1", 2, 0), ("2", 2, 1), ("3", 2, 2),("-", 2, 3),
-    ("C",3, 0), ("0", 3, 1), ("=", 3, 2), ("+", 3, 3)
+    ("C", 3, 0), ("0", 3, 1), ("=", 3, 2), ("+", 3, 3),
+    ("√", 4, 0), ("x²", 4, 1), ("%", 4, 2)
 ]
 
 buttons_list = []
 
 for text, row, col in buttons:
-    btn = CTkButton(frame, text=text, width=60, height=40, font=("Arial", 14, "bold"))
+    if text == "=":
+        btn = CTkButton(frame, text=text, width=60, height=40,font=("Arial", 14, "bold"),command=cal)
+    elif text == "C":
+        btn = CTkButton(frame, text=text, width=60, height=40,font=("Arial", 14, "bold"),command=lambda: display.delete(0, END))
+    elif text == "√":
+        btn = CTkButton(frame, text=text, width=60, height=40, font=("Arial", 14, "bold"), command=sqrt)
+    elif text == "x²":
+        btn = CTkButton(frame, text=text, width=60, height=40, font=("Arial", 14, "bold"), command=square)
+    elif text == "%":
+        btn = CTkButton(frame, text=text, width=60, height=40, font=("Arial", 14, "bold"), command=percent)
+    else:
+        btn = CTkButton(frame, text=text, width=60, height=40,font=("Arial", 14, "bold"),command=lambda t=text: n(t))
     btn.grid(row=row, column=col, padx=5, pady=5)
     buttons_list.append(btn)
 
